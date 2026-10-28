@@ -109,7 +109,7 @@ npm run data
 ```
 
 - The KB carries an as-of date, every source a `checked` date, and every version window its own `from`/`expires` dates.
-- A weekly workflow ([.github/workflows/refresh.yml](.github/workflows/refresh.yml)) refreshes the registry snapshot, re-checks links and opens a PR listing new versions of the guides the KB cites. A curator decides whether a regulation, SVAP list or agency page accepts them.
+- A weekly workflow ([.github/workflows/refresh.yml](.github/workflows/refresh.yml), paused for now; see [To do](#to-do)) refreshes the registry snapshot, re-checks links and opens a PR listing new versions of the guides the KB cites. A curator decides whether a regulation, SVAP list or agency page accepts them.
 - `npm run data` validates the KB against the snapshot and refuses to build on errors.
 - Review the KB at least quarterly against new regulations, approved-version lists and IG releases.
 
@@ -123,6 +123,19 @@ Proof of done for each driver: generate the HAPI config, boot the server, load t
 - **Language:** TypeScript end to end, since resolution runs in the browser (no backend) and the same core serves the CLI.
 - **Dependency closure** reads each package's own `package.json` (FHIR package dependencies are exact versions), including the version-suffixed wrapper packages HL7 publishes for side-by-side installs (`hl7.fhir.us.core.v610`) and the `alias@npm:package` form.
 - Named for and modeled on [Spring Initializr](https://github.com/spring-io/initializr): a metadata model, version ranges, and emitters as contributors, without its server. Not affiliated with the Spring project or Broadcom.
+
+## To do
+
+- **Inferno proof runs.** The second half of [proof of done](#proof-of-done): run each driver's named Inferno kit against the HAPI servers. It needs a working Docker.
+- **Trademark wording.** Once HL7 grants permission for the name, change the footer and the license line below to HL7's attribution: "FHIR® is the registered trademark of HL7 and is used with the permission of HL7."
+- **Weekly refresh.** [refresh.yml](.github/workflows/refresh.yml) is disabled. Before turning it back on, enable Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests"; without it the run refreshes the snapshot but can't open its PR.
+- **KB review.** The first quarterly review of sources, approved-version lists and IG releases is due by January 2027 (KB as of 2026-10-21).
+- **More drivers:** for example state Medicaid, VA Lighthouse, CDC/NHSN reporting and CMS digital quality.
+- **Other countries' guides.** Outside the US only the national foundation is added; the 160 other-country guides in the IG registry aren't classified yet.
+- **FHIR Matchbook handoff** (deferred on purpose). Matchbook's "Open in Initializr" links still pass a `role` and a guide id, which Initializr no longer reads, so they land on a blank start.
+- **Shared data with FHIR Matchbook.** The registry snapshot, the `ig-map.yaml` catalog and the guide names in [kb/names.yaml](kb/names.yaml) are copies. Re-copy names by hand until the two apps share one package (the KB, the snapshot pipeline and `src/core`).
+- **An MCP server**, so agents can call the resolver like any other client of the published JSON.
+- **At MVP:** trim the remaining "under construction" notices (banner and footer).
 
 ## Versioning
 
